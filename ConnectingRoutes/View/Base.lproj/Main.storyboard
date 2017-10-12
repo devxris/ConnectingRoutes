@@ -32,9 +32,17 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Routes" id="QFa-ZY-EqM">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="s4L-O1-8yZ"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="s4L-O1-8yZ">
+                            <connections>
+                                <action selector="removeAnnotations:" destination="BYZ-38-t0r" id="jYe-q0-pPG"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem title="Routes" id="zMW-Kl-ZJo"/>
+                            <barButtonItem title="Routes" id="zMW-Kl-ZJo">
+                                <connections>
+                                    <action selector="drawRoute:" destination="BYZ-38-t0r" id="4F7-Kv-J1c"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Lines" id="eDz-KH-qTv">
                                 <connections>
                                     <action selector="drawPolyLine:" destination="BYZ-38-t0r" id="0Ut-DB-Rj7"/>

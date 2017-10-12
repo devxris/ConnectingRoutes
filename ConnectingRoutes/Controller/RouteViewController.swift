@@ -53,6 +53,58 @@ class RouteViewController: UIViewController {
 		let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
 		mapView.add(polyline)
 	}
+	
+	func drawDirection(startPoint: CLLocationCoordinate2D, endPoint: CLLocationCoordinate2D) {
+		
+		// create map items for coordinate
+		let startPlacemark = MKPlacemark(coordinate: startPoint)
+		let endPlacemark = MKPlacemark(coordinate: endPoint)
+		let startMapItem = MKMapItem(placemark: startPlacemark)
+		let endMapItem = MKMapItem(placemark: endPlacemark)
+		
+		// Set the source and destination of the route
+		let directionRequest = MKDirectionsRequest()
+		directionRequest.source = startMapItem
+		directionRequest.destination = endMapItem
+		directionRequest.transportType = .automobile
+		
+		// Calculate the direction
+		let directions = MKDirections(request: directionRequest)
+		directions.calculate { (routeResponse, routeError) in
+			guard let response = routeResponse else {
+				if let error = routeError { print(error.localizedDescription)}
+				return
+			}
+			
+			let route = response.routes[0]
+			self.mapView.add(route.polyline, level: .aboveRoads)
+		}
+	}
+	
+	@IBAction func drawRoute(_ sender: UIBarButtonItem) {
+		
+		mapView.removeOverlays(mapView.overlays)
+		
+		var coordinates = [CLLocationCoordinate2D]()
+		annotations.forEach { coordinates.append($0.coordinate) }
+		
+		let polyLine = MKPolyline(coordinates: coordinates, count: coordinates.count)
+		let visibleMapRect = mapView.mapRectThatFits(polyLine.boundingMapRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50))
+		self.mapView.setRegion(MKCoordinateRegionForMapRect(visibleMapRect), animated:
+			true)
+		
+		var index = 0
+		while index < annotations.count - 1 {
+			drawDirection(startPoint: annotations[index].coordinate, endPoint: annotations[index + 1].coordinate)
+			index += 1
+		}
+	}
+	
+	@IBAction func removeAnnotations(_ sender: UIBarButtonItem) {
+		mapView.removeOverlays(mapView.overlays)
+		mapView.removeAnnotations(annotations)
+		annotations.removeAll()
+	}
 }
 
 extension RouteViewController: MKMapViewDelegate {
