@@ -35,7 +35,11 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="s4L-O1-8yZ"/>
                         <rightBarButtonItems>
                             <barButtonItem title="Routes" id="zMW-Kl-ZJo"/>
-                            <barButtonItem title="Lines" id="eDz-KH-qTv"/>
+                            <barButtonItem title="Lines" id="eDz-KH-qTv">
+                                <connections>
+                                    <action selector="drawPolyLine:" destination="BYZ-38-t0r" id="0Ut-DB-Rj7"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
